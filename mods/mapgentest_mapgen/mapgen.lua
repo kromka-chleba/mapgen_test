@@ -26,10 +26,10 @@ local mapchunk_offset = -mapblock_size * math.floor(blocks_per_chunk / 2)
 -- 'overgen_min' and ends at 'overgen_max'. Meanwhile the mapchunk is
 -- inside of emerged area and starts at xyz: 'chunk_min' and ends at
 -- xyz: 'chunk_max'.
-local chunk_min = mapblock_size + 1
-local chunk_max = mapblock_size + mapchunk_size
-local overgen_min = 1
-local overgen_max = mapchunk_size + 2 * mapblock_size
+local chunk_min = mapblock_size
+local chunk_max = mapblock_size + mapchunk_size - 1
+local overgen_min = 0
+local overgen_max = mapchunk_size + 2 * mapblock_size - 1
 
 local function on_edge(b)
     if b == chunk_min or b == chunk_max then
