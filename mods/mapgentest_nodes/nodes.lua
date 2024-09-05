@@ -55,3 +55,13 @@ minetest.register_node(
         paramtype = "light",
     }
 )
+
+minetest.register_node(
+    node_name("mapchunk_edge"),
+    {
+        description = "Mapchunk Edge",
+        tiles = {{name = tx_name("mapchunk_edge")}},
+        groups = {cracky = 3, stone = 1},
+        paramtype = "light",
+    }
+)
