@@ -51,6 +51,9 @@ minetest.register_node(
     {
         description = "Base Water",
         tiles = {{name = tx_name("base_water")}},
+        sunlight_propagates = true,
+        use_texture_alpha = "blend",
+        drawtype = "glasslike",
         groups = {cracky = 3, stone = 1},
         paramtype = "light",
     }
