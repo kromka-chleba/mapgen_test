@@ -40,6 +40,9 @@ minetest.register_node(
     node_name("base_solid"),
     {
         description = "Base Solid",
+        sunlight_propagates = true,
+        use_texture_alpha = "blend",
+        drawtype = "glasslike",
         tiles = {{name = tx_name("base_solid")}},
         groups = {cracky = 3, stone = 1},
         paramtype = "light",

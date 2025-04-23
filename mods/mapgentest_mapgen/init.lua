@@ -25,7 +25,7 @@ minetest.register_alias("mapgen_stone", node_name("default_solid"))
 minetest.register_alias("mapgen_water_source", node_name("default_water"))
 minetest.register_alias("mapgen_river_water_source", node_name("default_water"))
 
-minetest.set_mapgen_setting("mg_flags", "nocaves, nodungeons, light, decorations, biomes", true)
+minetest.set_mapgen_setting("mg_flags", "nodungeons, light, decorations, biomes", true)
 
 dofile(mod_path.."/biomes.lua")
 minetest.register_mapgen_script(mod_path.."/mapgen.lua")
