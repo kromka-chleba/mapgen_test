@@ -16,12 +16,20 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
+-- Flag to control whether the block callback is enabled
+local block_callback_enabled = true
+
 -- Register the on_block_loaded callback to replace mapgen_solid with fallback_solid
 local mapblock_size = 16
 local mapgen_solid_id = core.get_content_id(node_name("mapgen_solid"))
 local fallback_solid_id = core.get_content_id(node_name("fallback_solid"))
 
 core.register_on_block_loaded(function(blockpos)
+    -- Early exit if callback is disabled
+    if not block_callback_enabled then
+        return
+    end
+    
     -- Calculate the world position of the mapblock
     local minp = {
         x = blockpos.x * mapblock_size,
@@ -61,3 +69,31 @@ core.register_on_block_loaded(function(blockpos)
         vm:write_to_map()
     end
 end)
+
+-- Chat command to toggle the block callback
+core.register_chatcommand("toggle_block_callback", {
+    params = "[on|off]",
+    description = "Toggle the mapblock on_load callback on or off, or query its status",
+    privs = {server = true},
+    func = function(name, param)
+        param = param:trim():lower()
+        
+        if param == "" then
+            -- Toggle mode
+            block_callback_enabled = not block_callback_enabled
+            local status = block_callback_enabled and "enabled" or "disabled"
+            return true, "Block callback is now " .. status
+        elseif param == "on" then
+            block_callback_enabled = true
+            return true, "Block callback is now enabled"
+        elseif param == "off" then
+            block_callback_enabled = false
+            return true, "Block callback is now disabled"
+        elseif param == "status" then
+            local status = block_callback_enabled and "enabled" or "disabled"
+            return true, "Block callback is currently " .. status
+        else
+            return false, "Invalid parameter. Use 'on', 'off', 'status', or no parameter to toggle"
+        end
+    end,
+})
