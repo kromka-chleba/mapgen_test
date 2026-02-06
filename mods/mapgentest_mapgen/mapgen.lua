@@ -37,8 +37,8 @@ local function on_edge(b)
     end
 end
 
-local base_solid_id = core.get_content_id(node_name("base_solid"))
-local edge_id = core.get_content_id(node_name("mapchunk_edge"))
+local mapgen_solid_id = core.get_content_id(node_name("mapgen_solid"))
+local fallback_edge_id = core.get_content_id(node_name("fallback_edge"))
 
 function draw_helper_grid(...)
     local vm, pos_min, pos_max, blockseed = ...
@@ -52,8 +52,8 @@ function draw_helper_grid(...)
             for x = chunk_min, chunk_max do
                 if on_edge(z) or on_edge(y) or on_edge(x) then
                     local i = z * va.zstride + y * va.ystride + x + 1
-                    if data[i] == base_solid_id then
-                        data[i] = edge_id
+                    if data[i] == mapgen_solid_id then
+                        data[i] = fallback_edge_id
                     end
                 end
             end

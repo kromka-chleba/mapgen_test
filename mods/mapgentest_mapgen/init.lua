@@ -21,9 +21,9 @@ local mod_name = core.get_current_modname()
 local mod_path = core.get_modpath(mod_name)
 
 -- These are necessary so the mapgen works at all lol
-core.register_alias("mapgen_stone", node_name("default_solid"))
-core.register_alias("mapgen_water_source", node_name("default_water"))
-core.register_alias("mapgen_river_water_source", node_name("default_water"))
+core.register_alias("mapgen_stone", node_name("fallback_solid"))
+core.register_alias("mapgen_water_source", node_name("fallback_water"))
+core.register_alias("mapgen_river_water_source", node_name("fallback_water"))
 
 core.set_mapgen_setting("mg_flags", "nocaves, nodungeons, light, decorations, biomes", true)
 

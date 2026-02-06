@@ -16,10 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
--- Register the on_block_loaded callback to replace base_solid with base_default
+-- Register the on_block_loaded callback to replace mapgen_solid with fallback_solid
 local mapblock_size = 16
-local base_solid_id = core.get_content_id(node_name("base_solid"))
-local base_default_id = core.get_content_id(node_name("base_default"))
+local mapgen_solid_id = core.get_content_id(node_name("mapgen_solid"))
+local fallback_solid_id = core.get_content_id(node_name("fallback_solid"))
 
 core.register_on_block_loaded(function(blockpos)
     -- Calculate the world position of the mapblock
@@ -41,14 +41,14 @@ core.register_on_block_loaded(function(blockpos)
     local data = vm:get_data()
     local area = VoxelArea:new({MinEdge = emin, MaxEdge = emax})
     
-    -- Check if any base_solid nodes exist and replace them with base_default
+    -- Check if any mapgen_solid nodes exist and replace them with fallback_solid
     local found = false
     for z = minp.z, maxp.z do
         for y = minp.y, maxp.y do
             for x = minp.x, maxp.x do
                 local vi = area:index(x, y, z)
-                if data[vi] == base_solid_id then
-                    data[vi] = base_default_id
+                if data[vi] == mapgen_solid_id then
+                    data[vi] = fallback_solid_id
                     found = true
                 end
             end

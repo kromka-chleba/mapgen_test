@@ -16,51 +16,22 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
+-- Mapgen nodes (used in biomes)
 core.register_node(
-    node_name("default_solid"),
+    node_name("mapgen_solid"),
     {
-        description = "Default Solid",
-        tiles = {{name = tx_name("default_solid")}},
+        description = "Mapgen Solid",
+        tiles = {{name = tx_name("mapgen_solid")}},
         groups = {cracky = 3, stone = 1},
         paramtype = "light",
     }
 )
 
 core.register_node(
-    node_name("default_water"),
+    node_name("mapgen_water"),
     {
-        description = "Default Water",
-        tiles = {{name = tx_name("default_water")}},
-        groups = {cracky = 3, stone = 1},
-        paramtype = "light",
-    }
-)
-
-core.register_node(
-    node_name("base_solid"),
-    {
-        description = "Base Solid",
-        tiles = {{name = tx_name("base_solid")}},
-        groups = {cracky = 3, stone = 1},
-        paramtype = "light",
-    }
-)
-
-core.register_node(
-    node_name("base_default"),
-    {
-        description = "Base Default",
-        tiles = {{name = tx_name("base_default")}},
-        groups = {cracky = 3, stone = 1},
-        paramtype = "light",
-    }
-)
-
-core.register_node(
-    node_name("base_water"),
-    {
-        description = "Base Water",
-        tiles = {{name = tx_name("base_water")}},
+        description = "Mapgen Water",
+        tiles = {{name = tx_name("mapgen_water")}},
         sunlight_propagates = true,
         use_texture_alpha = "blend",
         drawtype = "glasslike",
@@ -69,11 +40,32 @@ core.register_node(
     }
 )
 
+-- Fallback nodes (used in callbacks and aliases)
 core.register_node(
-    node_name("mapchunk_edge"),
+    node_name("fallback_solid"),
     {
-        description = "Mapchunk Edge",
-        tiles = {{name = tx_name("mapchunk_edge")}},
+        description = "Fallback Solid",
+        tiles = {{name = tx_name("fallback_solid")}},
+        groups = {cracky = 3, stone = 1},
+        paramtype = "light",
+    }
+)
+
+core.register_node(
+    node_name("fallback_water"),
+    {
+        description = "Fallback Water",
+        tiles = {{name = tx_name("fallback_water")}},
+        groups = {cracky = 3, stone = 1},
+        paramtype = "light",
+    }
+)
+
+core.register_node(
+    node_name("fallback_edge"),
+    {
+        description = "Fallback Edge",
+        tiles = {{name = tx_name("fallback_edge")}},
         groups = {cracky = 3, stone = 1},
         paramtype = "light",
     }
