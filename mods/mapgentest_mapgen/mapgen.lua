@@ -38,7 +38,7 @@ local function on_edge(b)
 end
 
 local mapgen_solid_id = core.get_content_id(node_name("mapgen_solid"))
-local fallback_edge_id = core.get_content_id(node_name("fallback_edge"))
+local edge_marker_id = core.get_content_id(node_name("edge_marker"))
 
 function draw_helper_grid(...)
     local vm, pos_min, pos_max, blockseed = ...
@@ -53,7 +53,7 @@ function draw_helper_grid(...)
                 if on_edge(z) or on_edge(y) or on_edge(x) then
                     local i = z * va.zstride + y * va.ystride + x + 1
                     if data[i] == mapgen_solid_id then
-                        data[i] = fallback_edge_id
+                        data[i] = edge_marker_id
                     end
                 end
             end

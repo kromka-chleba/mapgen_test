@@ -61,11 +61,12 @@ core.register_node(
     }
 )
 
+-- Edge marker nodes (used to mark mapchunk boundaries)
 core.register_node(
-    node_name("fallback_edge"),
+    node_name("edge_marker"),
     {
-        description = "Fallback Edge",
-        tiles = {{name = tx_name("fallback_edge")}},
+        description = "Edge Marker",
+        tiles = {{name = tx_name("edge_marker")}},
         groups = {cracky = 3, stone = 1},
         paramtype = "light",
     }
