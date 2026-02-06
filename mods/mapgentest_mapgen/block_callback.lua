@@ -34,7 +34,8 @@ core.register_on_block_loaded(function(blockpos)
         z = minp.z + mapblock_size - 1
     }
     
-    -- Create a voxel manipulator for this mapblock (inside callback to avoid nil issues)
+    -- Create a voxel manipulator for this mapblock
+    -- Note: Created inside callback to ensure world is ready (fixes nil error)
     local vm = core.get_voxel_manip()
     local emin, emax = vm:read_from_map(minp, maxp)
     local data = vm:get_data()
