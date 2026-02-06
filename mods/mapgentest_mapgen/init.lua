@@ -35,6 +35,9 @@ local mapblock_size = 16
 local base_solid_id = core.get_content_id(node_name("base_solid"))
 local base_default_id = core.get_content_id(node_name("base_default"))
 
+-- Reuse the voxel manipulator for performance
+local vm = core.get_voxel_manip()
+
 core.register_on_block_loaded(function(blockpos)
     -- Calculate the world position of the mapblock
     local minp = {
@@ -48,25 +51,28 @@ core.register_on_block_loaded(function(blockpos)
         z = minp.z + mapblock_size - 1
     }
     
-    -- Create a voxel manipulator for this mapblock
-    local vm = core.get_voxel_manip()
+    -- Read the mapblock data
     local emin, emax = vm:read_from_map(minp, maxp)
     local data = vm:get_data()
     local area = VoxelArea:new({MinEdge = emin, MaxEdge = emax})
     
-    -- Replace base_solid with base_default
+    -- Check if any base_solid nodes exist and replace them with base_default
+    local found = false
     for z = minp.z, maxp.z do
         for y = minp.y, maxp.y do
             for x = minp.x, maxp.x do
                 local vi = area:index(x, y, z)
                 if data[vi] == base_solid_id then
                     data[vi] = base_default_id
+                    found = true
                 end
             end
         end
     end
     
-    -- Write the modified data back
-    vm:set_data(data)
-    vm:write_to_map()
+    -- Only write back if changes were made
+    if found then
+        vm:set_data(data)
+        vm:write_to_map()
+    end
 end)
