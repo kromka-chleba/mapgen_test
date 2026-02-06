@@ -17,15 +17,56 @@
 --]]
 
 -- This mod name and path
-local mod_name = minetest.get_current_modname()
-local mod_path = minetest.get_modpath(mod_name)
+local mod_name = core.get_current_modname()
+local mod_path = core.get_modpath(mod_name)
 
 -- These are necessary so the mapgen works at all lol
-minetest.register_alias("mapgen_stone", node_name("default_solid"))
-minetest.register_alias("mapgen_water_source", node_name("default_water"))
-minetest.register_alias("mapgen_river_water_source", node_name("default_water"))
+core.register_alias("mapgen_stone", node_name("default_solid"))
+core.register_alias("mapgen_water_source", node_name("default_water"))
+core.register_alias("mapgen_river_water_source", node_name("default_water"))
 
-minetest.set_mapgen_setting("mg_flags", "nocaves, nodungeons, light, decorations, biomes", true)
+core.set_mapgen_setting("mg_flags", "nocaves, nodungeons, light, decorations, biomes", true)
 
 dofile(mod_path.."/biomes.lua")
-minetest.register_mapgen_script(mod_path.."/mapgen.lua")
+core.register_mapgen_script(mod_path.."/mapgen.lua")
+
+-- Register the on_block_loaded callback to replace base_solid with base_default
+local mapblock_size = 16
+local base_solid_id = core.get_content_id(node_name("base_solid"))
+local base_default_id = core.get_content_id(node_name("base_default"))
+
+core.register_on_block_loaded(function(blockpos)
+    -- Calculate the world position of the mapblock
+    local minp = {
+        x = blockpos.x * mapblock_size,
+        y = blockpos.y * mapblock_size,
+        z = blockpos.z * mapblock_size
+    }
+    local maxp = {
+        x = minp.x + mapblock_size - 1,
+        y = minp.y + mapblock_size - 1,
+        z = minp.z + mapblock_size - 1
+    }
+    
+    -- Create a voxel manipulator for this mapblock
+    local vm = core.get_voxel_manip()
+    local emin, emax = vm:read_from_map(minp, maxp)
+    local data = vm:get_data()
+    local area = VoxelArea:new({MinEdge = emin, MaxEdge = emax})
+    
+    -- Replace base_solid with base_default
+    for z = minp.z, maxp.z do
+        for y = minp.y, maxp.y do
+            for x = minp.x, maxp.x do
+                local vi = area:index(x, y, z)
+                if data[vi] == base_solid_id then
+                    data[vi] = base_default_id
+                end
+            end
+        end
+    end
+    
+    -- Write the modified data back
+    vm:set_data(data)
+    vm:write_to_map()
+end)

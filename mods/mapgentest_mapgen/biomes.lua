@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-minetest.register_biome({
+core.register_biome({
         name = "base",
         node_top = node_name("base_solid"),
         depth_top = 1,

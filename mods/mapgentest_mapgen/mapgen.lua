@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local blocks_per_chunk = tonumber(minetest.get_mapgen_setting("chunksize"))
+local blocks_per_chunk = tonumber(core.get_mapgen_setting("chunksize"))
 local mapblock_size = 16
 local mapchunk_size = blocks_per_chunk * mapblock_size
 local mapchunk_offset = -mapblock_size * math.floor(blocks_per_chunk / 2)
@@ -37,8 +37,8 @@ local function on_edge(b)
     end
 end
 
-local base_solid_id = minetest.get_content_id(node_name("base_solid"))
-local edge_id = minetest.get_content_id(node_name("mapchunk_edge"))
+local base_solid_id = core.get_content_id(node_name("base_solid"))
+local edge_id = core.get_content_id(node_name("mapchunk_edge"))
 
 function draw_helper_grid(...)
     local vm, pos_min, pos_max, blockseed = ...
@@ -66,10 +66,10 @@ end
 
 
 local function mapgen(...)
-    local t1 = minetest.get_us_time()
+    local t1 = core.get_us_time()
     local vm, pos_min, pos_max, blockseed = ...
     draw_helper_grid(...)
-    --minetest.log("error", string.format("elapsed time: %g ms", (minetest.get_us_time() - t1) / 1000))
+    --core.log("error", string.format("elapsed time: %g ms", (core.get_us_time() - t1) / 1000))
 end
 
-minetest.register_on_generated(mapgen)
+core.register_on_generated(mapgen)

@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-minetest.register_node(
+core.register_node(
     node_name("default_solid"),
     {
         description = "Default Solid",
@@ -26,7 +26,7 @@ minetest.register_node(
     }
 )
 
-minetest.register_node(
+core.register_node(
     node_name("default_water"),
     {
         description = "Default Water",
@@ -36,7 +36,7 @@ minetest.register_node(
     }
 )
 
-minetest.register_node(
+core.register_node(
     node_name("base_solid"),
     {
         description = "Base Solid",
@@ -46,7 +46,17 @@ minetest.register_node(
     }
 )
 
-minetest.register_node(
+core.register_node(
+    node_name("base_default"),
+    {
+        description = "Base Default",
+        tiles = {{name = tx_name("base_default")}},
+        groups = {cracky = 3, stone = 1},
+        paramtype = "light",
+    }
+)
+
+core.register_node(
     node_name("base_water"),
     {
         description = "Base Water",
@@ -59,7 +69,7 @@ minetest.register_node(
     }
 )
 
-minetest.register_node(
+core.register_node(
     node_name("mapchunk_edge"),
     {
         description = "Mapchunk Edge",
