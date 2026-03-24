@@ -124,6 +124,71 @@ if core.settings:get_bool("mapgentest_forest_biome", false) then
     local medium_tree_schematic = make_tree_schematic(6,  2)
     local tall_tree_schematic   = make_tree_schematic(29, 2)
 
+    -- Fat baobab: a wide, squat tree with a bulging trunk.
+    -- Schematic footprint: 7×7, total height: 11 nodes.
+    --   y 0-2  : 5×5 log base (|dx|≤2 and |dz|≤2)
+    --   y 3-7  : 3×3 log mid/upper trunk (|dx|≤1 and |dz|≤1)
+    --   y 8-9  : 7×7 leaf canopy; 4 outer corners clipped to air;
+    --            single centre cell stays log (trunk runs through)
+    --   y 10   : 5×5 leaf top cap (no log)
+    local function make_baobab_schematic()
+        local W, D, H = 7, 7, 11
+        local cx, cz  = 3, 3   -- 0-based centre
+        local log_node    = node_name("log")
+        local leaves_node = node_name("leaves")
+        local data = {}
+
+        for z = 0, D - 1 do
+            for y = 0, H - 1 do
+                for x = 0, W - 1 do
+                    local dx = math.abs(x - cx)
+                    local dz = math.abs(z - cz)
+                    local name, prob
+
+                    if y <= 2 then
+                        -- Wide base: 5×5 solid log block.
+                        if dx <= 2 and dz <= 2 then
+                            name = log_node ; prob = 255
+                        else
+                            name = "air" ; prob = 0
+                        end
+                    elseif y <= 7 then
+                        -- Tapering trunk: 3×3 log column.
+                        if dx <= 1 and dz <= 1 then
+                            name = log_node ; prob = 255
+                        else
+                            name = "air" ; prob = 0
+                        end
+                    elseif y <= 9 then
+                        -- Canopy: 7×7 leaves, outer corners clipped,
+                        -- single centre cell remains log.
+                        local is_outer_corner = (dx == 3 and dz == 3)
+                        if is_outer_corner then
+                            name = "air" ; prob = 0
+                        elseif dx == 0 and dz == 0 then
+                            name = log_node ; prob = 255
+                        else
+                            name = leaves_node ; prob = 255
+                        end
+                    else
+                        -- Top cap (y == 10): 5×5 leaves, no log.
+                        if dx <= 2 and dz <= 2 then
+                            name = leaves_node ; prob = 255
+                        else
+                            name = "air" ; prob = 0
+                        end
+                    end
+
+                    table.insert(data, {name = name, prob = prob})
+                end
+            end
+        end
+
+        return {size = {x = W, y = H, z = D}, data = data}
+    end
+
+    local baobab_schematic = make_baobab_schematic()
+
     core.register_decoration({
         name = "mapgentest_mapgen:small_tree",
         deco_type = "schematic",
@@ -151,6 +216,16 @@ if core.settings:get_bool("mapgentest_forest_biome", false) then
         biomes = {"forest"},
         fill_ratio = 0.005,
         schematic = tall_tree_schematic,
+        flags = "place_center_x, place_center_z",
+    })
+
+    core.register_decoration({
+        name = "mapgentest_mapgen:baobab",
+        deco_type = "schematic",
+        place_on = {node_name("mapgen_solid")},
+        biomes = {"forest"},
+        fill_ratio = 0.005,
+        schematic = baobab_schematic,
         flags = "place_center_x, place_center_z",
     })
 
