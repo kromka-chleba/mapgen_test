@@ -21,7 +21,7 @@
 -- fills them with terrain from scratch using 2D Perlin-like noise.
 
 local mapblock_size    = 16
-local blocks_per_chunk = tonumber(core.get_mapgen_setting("chunksize"))
+local blocks_per_chunk = tonumber(core.get_mapgen_setting("chunksize")) or 5
 local mapchunk_size    = blocks_per_chunk * mapblock_size
 
 -- The emerged area is one mapblock shell around the chunk on every side.
@@ -116,4 +116,9 @@ core.register_on_generated(function(vm, minp, maxp, blockseed)
     end
 
     vm:set_data(data)
+    -- Recompute lighting for the whole emerged area after placing nodes.
+    -- Required when using singlenode mapgen because the engine does not run
+    -- its own lighting step; skipping this causes lighting bugs when multiple
+    -- emerge threads are active.
+    vm:calc_lighting()
 end)
