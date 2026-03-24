@@ -16,6 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
+local transparent = core.settings:get_bool("mapgentest_transparent_nodes", true)
+local alpha = "a0" -- semi-transparent (~63% opacity, 160/255)
+
 -- Mapgen nodes (used in biomes)
 -- gray base
 core.register_node(
@@ -23,8 +26,12 @@ core.register_node(
     {
         description = "Mapgen Solid",
         tiles = {{name = tx_name("mapgen_solid")}},
+        color = transparent and "#808080" .. alpha or "#808080",
         groups = {cracky = 3, stone = 1},
         paramtype = "light",
+        sunlight_propagates = transparent,
+        use_texture_alpha = transparent and "blend" or "opaque",
+        drawtype = transparent and "glasslike" or "normal",
     }
 )
 
@@ -33,12 +40,13 @@ core.register_node(
     node_name("mapgen_water"),
     {
         description = "Mapgen Water",
-        tiles = {{name = tx_name("mapgen_water")}},
-        sunlight_propagates = true,
-        use_texture_alpha = "blend",
-        drawtype = "glasslike",
+        tiles = {{name = tx_name("mapgen_solid")}},
+        color = transparent and "#3366cc" .. alpha or "#3366cc",
         groups = {cracky = 3, stone = 1},
         paramtype = "light",
+        sunlight_propagates = transparent,
+        use_texture_alpha = transparent and "blend" or "opaque",
+        drawtype = transparent and "glasslike" or "normal",
     }
 )
 
@@ -48,9 +56,13 @@ core.register_node(
     node_name("fallback_solid"),
     {
         description = "Fallback Solid",
-        tiles = {{name = tx_name("fallback_solid")}},
+        tiles = {{name = tx_name("mapgen_solid")}},
+        color = transparent and "#ff69b4" .. alpha or "#ff69b4",
         groups = {cracky = 3, stone = 1},
         paramtype = "light",
+        sunlight_propagates = transparent,
+        use_texture_alpha = transparent and "blend" or "opaque",
+        drawtype = transparent and "glasslike" or "normal",
     }
 )
 
@@ -59,9 +71,13 @@ core.register_node(
     node_name("fallback_water"),
     {
         description = "Fallback Water",
-        tiles = {{name = tx_name("fallback_water")}},
+        tiles = {{name = tx_name("mapgen_solid")}},
+        color = transparent and "#ffdd00" .. alpha or "#ffdd00",
         groups = {cracky = 3, stone = 1},
         paramtype = "light",
+        sunlight_propagates = transparent,
+        use_texture_alpha = transparent and "blend" or "opaque",
+        drawtype = transparent and "glasslike" or "normal",
     }
 )
 
