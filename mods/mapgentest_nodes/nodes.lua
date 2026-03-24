@@ -138,6 +138,21 @@ core.register_node(
     }
 )
 
+-- teal (ocean/river floor)
+core.register_node(
+    node_name("sea_floor"),
+    {
+        description = "Sea Floor",
+        tiles = {{name = tx_base}},
+        color = "#008080",
+        groups = {cracky = 3, stone = 1},
+        paramtype = "light",
+        sunlight_propagates = transparent_base,
+        use_texture_alpha = transparent_base and "blend" or "opaque",
+        drawtype = transparent_base and "glasslike" or "normal",
+    }
+)
+
 -- Edge marker nodes (used to mark mapchunk boundaries)
 -- Each variant uses the edge_marker texture tinted to match its node type.
 -- gray (mapgen_solid)
