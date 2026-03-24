@@ -80,14 +80,14 @@ core.register_on_generated(function(vm, minp, maxp, blockseed)
     -- Flat layout: index = z_offset * side_x + x_offset + 1  (x varies fastest).
     local nvals = nobj_terrain:get_2d_map_flat({x = emin.x, y = emin.z})
 
-    for z = emin.z, emax.z do
+    for z = minp.z, maxp.z do
         local lz = z - emin.z
-        for x = emin.x, emax.x do
+        for x = minp.x, maxp.x do
             local lx    = x - emin.x
             local ni    = lz * side_x + lx + 1
             local surf  = math.floor(nvals[ni])
 
-            for y = emin.y, emax.y do
+            for y = minp.y, maxp.y do
                 local ly = y - emin.y
                 local vi = va:index(x, y, z)
 
