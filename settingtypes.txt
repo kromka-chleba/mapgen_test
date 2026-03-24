@@ -1,13 +1,13 @@
+# Use a pure Lua mapgen instead of the default engine mapgen. When enabled the
+# engine is set to "singlenode" and all terrain is generated entirely in Lua
+# using 2D noise. This is not the default.
 mapgentest_lua_mapgen (Pure Lua mapgen) bool false
-    Use a pure Lua mapgen instead of the default engine mapgen. When enabled the
-    engine is set to "singlenode" and all terrain is generated entirely in Lua
-    using 2D noise. This is not the default.
 
+# Enable transparency for base (solid) nodes (mapgen_solid, block_loaded). The fallback and edge nodes are always opaque.
 mapgentest_transparent_base_nodes (Transparent base/solid nodes) bool true
-    Enable transparency for base (solid) nodes (mapgen_solid, block_loaded). The fallback and edge nodes are always opaque.
 
+# Enable transparency for water nodes (mapgen_water). The fallback and edge nodes are always opaque.
 mapgentest_transparent_water_nodes (Transparent water nodes) bool true
-    Enable transparency for water nodes (mapgen_water). The fallback and edge nodes are always opaque.
 
+# Enable the on_block_loaded callback that marks loaded mapblocks with the block_loaded node.
 mapgentest_block_loaded_callback (block_loaded callback) bool true
-    Enable the on_block_loaded callback that marks loaded mapblocks with the block_loaded node.
