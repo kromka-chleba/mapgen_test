@@ -17,6 +17,7 @@
 --]]
 
 -- Mapgen nodes (used in biomes)
+-- gray base
 core.register_node(
     node_name("mapgen_solid"),
     {
@@ -27,6 +28,7 @@ core.register_node(
     }
 )
 
+-- blue transparent base
 core.register_node(
     node_name("mapgen_water"),
     {
@@ -41,6 +43,7 @@ core.register_node(
 )
 
 -- Fallback nodes (used in callbacks and aliases)
+-- pink
 core.register_node(
     node_name("fallback_solid"),
     {
@@ -51,6 +54,7 @@ core.register_node(
     }
 )
 
+-- yellow
 core.register_node(
     node_name("fallback_water"),
     {
@@ -62,6 +66,7 @@ core.register_node(
 )
 
 -- Edge marker nodes (used to mark mapchunk boundaries)
+-- gray node with "E" on it
 core.register_node(
     node_name("edge_marker"),
     {
