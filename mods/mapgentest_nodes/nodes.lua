@@ -16,19 +16,20 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
--- Separate transparency settings for base/solid nodes and water nodes.
--- The color field performs RGB-only hardware multiplication and does not
--- affect rendered transparency.  When transparent, use [opacity:160 so the
--- texture itself carries the alpha that use_texture_alpha = "blend" can render.
--- Fallback nodes are always fully opaque to remain easily visible.
+-- Separate transparency settings for base/solid nodes and water
+-- nodes.  The color field performs RGB-only hardware multiplication
+-- and does not affect rendered transparency. For transparent nodes
+-- use [opacity:77 (30% opaque) so the texture itself carries the
+-- alpha that use_texture_alpha = "blend" can render.  Fallback nodes
+-- are always fully opaque to remain easily visible.
 local transparent_base  = core.settings:get_bool("mapgentest_transparent_base_nodes",  true)
 local transparent_water = core.settings:get_bool("mapgentest_transparent_water_nodes", true)
 
 -- All non-edge nodes share mapgen_solid as the base texture; hardware
 -- coloring via the color field differentiates them visually.
 local tx_solid = tx_name("mapgen_solid")
-local tx_base  = transparent_base  and tx_solid .. "^[opacity:160" or tx_solid
-local tx_water = transparent_water and tx_solid .. "^[opacity:160" or tx_solid
+local tx_base  = transparent_base  and tx_solid .. "^[opacity:77" or tx_solid
+local tx_water = transparent_water and tx_solid .. "^[opacity:77" or tx_solid
 
 -- Mapgen nodes (used in biomes)
 -- gray base
