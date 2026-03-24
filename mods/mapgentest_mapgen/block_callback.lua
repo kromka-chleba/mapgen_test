@@ -16,13 +16,30 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
+-- Check whether the on_block_loaded API is available and the setting is enabled
+local callback_setting_enabled =
+    core.settings:get_bool("mapgentest_block_loaded_callback", true)
+
+if not core.register_on_block_loaded then
+    if callback_setting_enabled then
+        core.log("warning",
+            "[mapgentest] core.register_on_block_loaded is not available on "
+            .. "this version of Luanti; the block_loaded callback will not run.")
+    end
+    return
+end
+
+if not callback_setting_enabled then
+    return
+end
+
 -- Flag to control whether the block callback is enabled
 local block_callback_enabled = true
 
--- Register the on_block_loaded callback to replace mapgen_solid with fallback_solid
+-- Register the on_block_loaded callback to replace mapgen_solid with block_loaded
 local mapblock_size = 16
 local mapgen_solid_id = core.get_content_id(node_name("mapgen_solid"))
-local fallback_solid_id = core.get_content_id(node_name("fallback_solid"))
+local block_loaded_id = core.get_content_id(node_name("block_loaded"))
 
 core.register_on_block_loaded(function(blockpos)
     -- Early exit if callback is disabled
@@ -49,14 +66,14 @@ core.register_on_block_loaded(function(blockpos)
     local data = vm:get_data()
     local area = VoxelArea:new({MinEdge = emin, MaxEdge = emax})
     
-    -- Check if any mapgen_solid nodes exist and replace them with fallback_solid
+    -- Check if any mapgen_solid nodes exist and replace them with block_loaded
     local found = false
     for z = minp.z, maxp.z do
         for y = minp.y, maxp.y do
             for x = minp.x, maxp.x do
                 local vi = area:index(x, y, z)
                 if data[vi] == mapgen_solid_id then
-                    data[vi] = fallback_solid_id
+                    data[vi] = block_loaded_id
                     found = true
                 end
             end

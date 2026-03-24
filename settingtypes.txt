@@ -1,2 +1,5 @@
 mapgentest_transparent_nodes (Transparent nodes) bool true
     Enable transparency for water and base nodes. The edge nodes are always opaque.
+
+mapgentest_block_loaded_callback (block_loaded callback) bool true
+    Enable the on_block_loaded callback that marks loaded mapblocks with the block_loaded node.

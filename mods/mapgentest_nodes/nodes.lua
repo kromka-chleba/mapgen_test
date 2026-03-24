@@ -89,6 +89,22 @@ core.register_node(
     }
 )
 
+-- on_block_loaded callback node
+-- light green
+core.register_node(
+    node_name("block_loaded"),
+    {
+        description = "Block Loaded",
+        tiles = {{name = tx_base}},
+        color = "#90ee90",
+        groups = {cracky = 3, stone = 1},
+        paramtype = "light",
+        sunlight_propagates = transparent,
+        use_texture_alpha = transparent and "blend" or "opaque",
+        drawtype = transparent and "glasslike" or "normal",
+    }
+)
+
 -- Edge marker nodes (used to mark mapchunk boundaries)
 -- gray node with "E" on it
 core.register_node(
