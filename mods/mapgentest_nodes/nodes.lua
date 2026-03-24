@@ -107,6 +107,37 @@ core.register_node(
     }
 )
 
+-- Tree nodes (used in the forest biome)
+-- brown
+core.register_node(
+    node_name("log"),
+    {
+        description = "Log",
+        tiles = {{name = tx_base}},
+        color = "#8B4513",
+        groups = {cracky = 3, stone = 1},
+        paramtype = "light",
+        sunlight_propagates = transparent_base,
+        use_texture_alpha = transparent_base and "blend" or "opaque",
+        drawtype = transparent_base and "glasslike" or "normal",
+    }
+)
+
+-- red
+core.register_node(
+    node_name("leaves"),
+    {
+        description = "Leaves",
+        tiles = {{name = tx_base}},
+        color = "#cc0000",
+        groups = {cracky = 3, stone = 1},
+        paramtype = "light",
+        sunlight_propagates = transparent_base,
+        use_texture_alpha = transparent_base and "blend" or "opaque",
+        drawtype = transparent_base and "glasslike" or "normal",
+    }
+)
+
 -- Edge marker nodes (used to mark mapchunk boundaries)
 -- Each variant uses the edge_marker texture tinted to match its node type.
 -- gray (mapgen_solid)
