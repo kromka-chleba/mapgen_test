@@ -1,6 +1,6 @@
 --[[
     This is a part of "Mapgentest".
-    Copyright (C) 2024 Jan Wielkiewicz <tona_kosmicznego_smiecia@interia.pl>
+    Copyright (C) 2024-2026 Jan Wielkiewicz <tona_kosmicznego_smiecia@interia.pl>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
