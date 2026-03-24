@@ -37,8 +37,25 @@ local function on_edge(b)
     end
 end
 
-local mapgen_solid_id = core.get_content_id(node_name("mapgen_solid"))
-local edge_marker_id = core.get_content_id(node_name("edge_marker"))
+local mapgen_solid_id       = core.get_content_id(node_name("mapgen_solid"))
+local mapgen_water_id       = core.get_content_id(node_name("mapgen_water"))
+local fallback_solid_id     = core.get_content_id(node_name("fallback_solid"))
+local fallback_water_id     = core.get_content_id(node_name("fallback_water"))
+local edge_marker_id                = core.get_content_id(node_name("edge_marker"))
+local edge_marker_water_id          = core.get_content_id(node_name("edge_marker_water"))
+local edge_marker_fallback_solid_id = core.get_content_id(node_name("edge_marker_fallback_solid"))
+local edge_marker_fallback_water_id = core.get_content_id(node_name("edge_marker_fallback_water"))
+
+-- Maps each node type to its corresponding colorized edge marker.
+-- block_loaded is intentionally absent: it only appears after the
+-- on_block_loaded callback fires, which runs after mapgen is complete,
+-- so it can never be present in the voxel data during on_generated.
+local node_to_edge_marker = {
+    [mapgen_solid_id]   = edge_marker_id,
+    [mapgen_water_id]   = edge_marker_water_id,
+    [fallback_solid_id] = edge_marker_fallback_solid_id,
+    [fallback_water_id] = edge_marker_fallback_water_id,
+}
 
 function draw_helper_grid(...)
     local vm, pos_min, pos_max, blockseed = ...
@@ -52,8 +69,9 @@ function draw_helper_grid(...)
             for x = chunk_min, chunk_max do
                 if on_edge(z) or on_edge(y) or on_edge(x) then
                     local i = z * va.zstride + y * va.ystride + x + 1
-                    if data[i] == mapgen_solid_id then
-                        data[i] = edge_marker_id
+                    local marker = node_to_edge_marker[data[i]]
+                    if marker then
+                        data[i] = marker
                     end
                 end
             end
