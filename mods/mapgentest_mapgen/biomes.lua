@@ -27,7 +27,30 @@ core.register_biome({
         node_water_top = node_name("mapgen_water"),
         depth_water_top = 1,
         node_water = node_name("mapgen_water"),
+        node_riverbed = node_name("sea_floor"),
+        depth_riverbed = 2,
         y_max = 31000,
+        y_min = 1,
+        heat_point = 50,
+        humidity_point = 50,
+})
+
+-- Ocean biome: covers terrain surfaces below sea level (y ≤ 0) so that
+-- the ocean and river floor shows sea_floor instead of mapgen_solid.
+core.register_biome({
+        name = "ocean",
+        node_top = node_name("sea_floor"),
+        depth_top = 1,
+        node_filler = node_name("sea_floor"),
+        depth_filler = 3,
+        node_stone = node_name("mapgen_solid"),
+        node_river_water = node_name("mapgen_water"),
+        node_water_top = node_name("mapgen_water"),
+        depth_water_top = 1,
+        node_water = node_name("mapgen_water"),
+        node_riverbed = node_name("sea_floor"),
+        depth_riverbed = 2,
+        y_max = 0,
         y_min = -31000,
         heat_point = 50,
         humidity_point = 50,
@@ -48,8 +71,10 @@ if core.settings:get_bool("mapgentest_forest_biome", false) then
         node_water_top = node_name("mapgen_water"),
         depth_water_top = 1,
         node_water = node_name("mapgen_water"),
+        node_riverbed = node_name("sea_floor"),
+        depth_riverbed = 2,
         y_max = 31000,
-        y_min = -31000,
+        y_min = 1,
         heat_point = 70,
         humidity_point = 70,
     })
