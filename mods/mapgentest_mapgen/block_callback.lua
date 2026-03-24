@@ -18,7 +18,7 @@
 
 -- Check whether the on_block_loaded API is available and the setting is enabled
 local callback_setting_enabled =
-    core.settings:get_bool("mapgentest_block_loaded_callback", true)
+    core.settings:get_bool("mapgentest_block_loaded_callback", false)
 
 if not core.register_on_block_loaded then
     if callback_setting_enabled then
