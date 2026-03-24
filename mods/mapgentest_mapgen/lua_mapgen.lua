@@ -70,7 +70,9 @@ core.register_on_generated(function(vm, minp, maxp, blockseed)
 
     -- Initialize the noise map on first use (size stays constant for a world).
     if not nobj_terrain then
-        nobj_terrain = core.get_value_noise_map(np_terrain, {x = side_x, y = side_z})
+        -- z = 1 satisfies Luanti's vector reader (silences the "Invalid vector
+        -- coordinate z" warning); z ≤ 1 keeps the map in 2D mode per the API.
+        nobj_terrain = core.get_value_noise_map(np_terrain, {x = side_x, y = side_z, z = 1})
     end
 
     -- 2D heightmap over the full emerged xz plane.
