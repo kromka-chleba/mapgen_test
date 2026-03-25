@@ -12,5 +12,9 @@ mapgentest_transparent_water_nodes (Transparent water nodes) bool true
 # Enable the on_block_loaded callback that marks loaded mapblocks with the block_loaded node.
 mapgentest_block_loaded_callback (block_loaded callback) bool false
 
+# Enable the LBM that replaces the base mapgen node (mapgen_solid) with the
+# block_loaded (green) node each time a mapblock containing it is loaded.
+mapgentest_lbm (LBM: replace mapgen_solid with block_loaded) bool false
+
 # Enable the forest biome with log and leaves nodes and small/medium/tall tree decorations.
 mapgentest_forest_biome (Forest biome) bool false

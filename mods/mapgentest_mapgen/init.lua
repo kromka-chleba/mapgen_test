@@ -42,3 +42,4 @@ else
 end
 
 dofile(mod_path.."/block_callback.lua")
+dofile(mod_path.."/lbm.lua")
