@@ -27,7 +27,7 @@ core.register_lbm({
     name = "mapgentest_mapgen:replace_mapgen_solid",
     nodenames = {node_name("mapgen_solid")},
     run_at_every_load = true,
-    action = function(pos, node)
-        core.set_node(pos, {name = node_name("block_loaded")})
+    bulk_action = function(pos_list, dtime_s)
+        core.bulk_set_node(pos_list, {name = node_name("block_loaded")})
     end,
 })
