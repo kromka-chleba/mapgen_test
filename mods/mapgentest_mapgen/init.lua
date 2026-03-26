@@ -28,6 +28,10 @@ core.register_alias("mapgen_river_water_source", node_name("fallback_water"))
 
 local use_lua_mapgen = core.settings:get_bool("mapgentest_lua_mapgen", false)
 
+-- Register the shared helper-grid script first so that draw_helper_grid() is
+-- available to whichever main mapgen script runs after it.
+core.register_mapgen_script(mod_path.."/helper_grid.lua")
+
 if use_lua_mapgen then
     -- Pure Lua mapgen: the "singlenode" engine generates empty chunks and the
     -- Lua script fills them with terrain from scratch.

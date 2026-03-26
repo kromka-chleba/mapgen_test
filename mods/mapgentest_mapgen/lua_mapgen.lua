@@ -19,18 +19,16 @@
 -- Pure Lua mapgen (runs in the mapgen thread via core.register_mapgen_script).
 -- The engine is set to "singlenode" so it produces empty chunks; this script
 -- fills them with terrain from scratch using 2D Perlin-like noise.
-
-local draw_grid = core.settings:get_bool("mapgentest_helper_grid", true)
+-- draw_helper_grid() is provided by helper_grid.lua, which is registered
+-- as a mapgen script before this one.
 
 -- Water level read from the active mapgen setting so it respects world meta.
 local water_level = tonumber(core.get_mapgen_setting("water_level")) or 1
 
 -- Content IDs
-local c_air        = core.get_content_id("air")
-local c_solid      = core.get_content_id(node_name("mapgen_solid"))
-local c_water      = core.get_content_id(node_name("mapgen_water"))
-local c_edge_solid = core.get_content_id(node_name("edge_marker"))
-local c_edge_water = core.get_content_id(node_name("edge_marker_water"))
+local c_air   = core.get_content_id("air")
+local c_solid = core.get_content_id(node_name("mapgen_solid"))
+local c_water = core.get_content_id(node_name("mapgen_water"))
 
 -- 2D terrain height noise parameters.
 -- Uses a world-specific seed (world seed + np_terrain.seed) via
@@ -88,26 +86,13 @@ core.register_on_generated(function(vm, minp, maxp, blockseed)
                     node = c_air
                 end
 
-                -- Replace non-air nodes at mapchunk boundary faces with
-                -- the appropriate colorized edge marker.
-                if draw_grid and node ~= c_air
-                    and (x == minp.x or x == maxp.x
-                         or y == minp.y or y == maxp.y
-                         or z == minp.z or z == maxp.z)
-                then
-                    if node == c_water then
-                        node = c_edge_water
-                    else
-                        node = c_edge_solid
-                    end
-                end
-
                 data[vi] = node
             end
         end
     end
 
     vm:set_data(data)
+    draw_helper_grid(vm, minp, maxp)
     -- Recompute lighting for the whole emerged area after placing nodes.
     -- Required when using singlenode mapgen because the engine does not run
     -- its own lighting step; skipping this causes lighting bugs when multiple
