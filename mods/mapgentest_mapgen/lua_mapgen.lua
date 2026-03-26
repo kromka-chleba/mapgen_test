@@ -20,18 +20,7 @@
 -- The engine is set to "singlenode" so it produces empty chunks; this script
 -- fills them with terrain from scratch using 2D Perlin-like noise.
 
-local mapblock_size    = 16
-local blocks_per_chunk = tonumber(core.get_mapgen_setting("chunksize")) or 5
-local mapchunk_size    = blocks_per_chunk * mapblock_size
-
--- The emerged area is one mapblock shell around the chunk on every side.
--- Chunk boundaries in 0-based offsets relative to the emerged area origin:
-local chunk_min = mapblock_size
-local chunk_max = mapblock_size + mapchunk_size - 1
-
-local function on_edge(offset)
-    return offset == chunk_min or offset == chunk_max
-end
+local draw_grid = core.settings:get_bool("mapgentest_helper_grid", true)
 
 -- Water level read from the active mapgen setting so it respects world meta.
 local water_level = tonumber(core.get_mapgen_setting("water_level")) or 1
@@ -88,7 +77,6 @@ core.register_on_generated(function(vm, minp, maxp, blockseed)
             local surf  = math.floor(nvals[ni])
 
             for y = minp.y, maxp.y do
-                local ly = y - emin.y
                 local vi = va:index(x, y, z)
 
                 local node
@@ -102,8 +90,10 @@ core.register_on_generated(function(vm, minp, maxp, blockseed)
 
                 -- Replace non-air nodes at mapchunk boundary faces with
                 -- the appropriate colorized edge marker.
-                if node ~= c_air
-                    and (on_edge(lx) or on_edge(ly) or on_edge(lz))
+                if draw_grid and node ~= c_air
+                    and (x == minp.x or x == maxp.x
+                         or y == minp.y or y == maxp.y
+                         or z == minp.z or z == maxp.z)
                 then
                     if node == c_water then
                         node = c_edge_water
