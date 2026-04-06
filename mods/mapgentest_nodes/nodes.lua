@@ -25,6 +25,7 @@
 local transparent_base  = core.settings:get_bool("mapgentest_transparent_base_nodes",  true)
 local transparent_water = core.settings:get_bool("mapgentest_transparent_water_nodes", true)
 local fullbright_nodes  = core.settings:get_bool("mapgentest_fullbright_nodes", false)
+-- Maximum node-emitted light level in Luanti/Minetest.
 local node_light_source = fullbright_nodes and 14 or 0
 
 -- All non-edge nodes share mapgen_solid as the base texture; hardware
