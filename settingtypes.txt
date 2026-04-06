@@ -22,3 +22,7 @@ mapgentest_forest_biome (Forest biome) bool false
 # Draw edge markers at mapchunk boundary faces during on_generated to visualize
 # chunk boundaries. Applies to both the engine mapgen and the pure Lua mapgen.
 mapgentest_helper_grid (Helper grid) bool true
+
+# Make all mapgentest nodes emit maximum light for debugging lighting glitches
+# (for example, unexpected shadows caused by mapgen lighting failures).
+mapgentest_fullbright_nodes (All nodes are light sources for debugging) bool false
